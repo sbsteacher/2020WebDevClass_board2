@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <div>
+	<div>
+		<a href="/bRegmod?typ=${typ}"><button>글쓰기</button></a>
+	</div>
 	<table>
 		<tr>
 			<td>번호</td>
@@ -12,7 +15,7 @@
 			<tr>
 				<td>${item.i_board}</td>
 				<td>
-					<a href="/v3/bDetail?i_board=${item.i_board}">
+					<a href="/bDetail?i_board=${item.i_board}">
 						${item.title}
 					</a>
 				</td>

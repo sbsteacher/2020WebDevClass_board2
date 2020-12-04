@@ -3,6 +3,7 @@ package com.koreait.board2.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,4 +44,37 @@ public class BoardDAO {
 		}		
 		return list;
 	}
+	
+	public static int insBoard(final BoardVO param) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = " INSERT INTO t_board_? "
+				+ " (title, ctnt) "
+				+ " VALUES "
+				+ " (?, ?) ";
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getTyp());
+			ps.setNString(2, param.getTitle());
+			ps.setNString(3, param.getCtnt());
+			return ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps);
+		}
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

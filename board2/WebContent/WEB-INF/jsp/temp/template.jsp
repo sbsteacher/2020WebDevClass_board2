@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>${title}</title>
 <link rel="stylesheet" href="/res/css/common.css">
+<script defer src="/res/js/common.js"></script>
 </head>
 <body>
 	<div id="container">
@@ -24,3 +25,6 @@
 	</div>
 </body>
 </html>
+
+
+

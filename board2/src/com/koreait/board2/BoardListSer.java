@@ -20,8 +20,9 @@ public class BoardListSer extends HttpServlet {
 		System.out.println("typ : " + typ);
 		
 		BoardVO param = new BoardVO();
-		param.setTyp(typ);
+		param.setTyp(typ);		
 		
+		request.setAttribute("typ", typ);
 		request.setAttribute("list", BoardService.selBoardList(param));
 		
 		Utils.forward("리스트", "bList", request, response);

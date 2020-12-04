@@ -14,6 +14,11 @@ public class Utils {
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}
 	
+	public static void forwardErr(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		forward("에러", "err", request, response);
+	}
+	
 	public static int getIntParam(HttpServletRequest request, String key) {
 		return getIntParam(request, key, 0);
 	}

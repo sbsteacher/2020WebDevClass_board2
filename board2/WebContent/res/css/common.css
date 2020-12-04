@@ -13,6 +13,8 @@ html, body {
 #container {
 	width: 100%;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 header ul {
@@ -39,3 +41,16 @@ header ul li a {
 header ul li a:hover:not(.active) {
     background-color: #111;
 }
+
+.centerCont {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#container section {
+	flex-grow: 1;
+}
+
