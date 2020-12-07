@@ -21,4 +21,8 @@ public class BoardService {
 		} 
 		return BoardDAO.insBoard(param);		
 	}
+	
+	public static int delBoard(BoardVO param) {
+		return BoardDAO.delBoard(param);
+	}
 }

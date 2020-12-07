@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>
 	<a href="/bList?typ=${data.typ}">돌아가기</a>
+	<form action="/bDetail" method="post">
+		<input type="hidden" name="typ" value="${data.typ}">
+		<input type="hidden" name="i_board" value="${data.i_board}">
+		<input type="submit" value="삭제">
+	</form>
 	<div>
 		<div>번호 : ${data.i_board}</div>
 		<div>제목 : ${data.title}</div>
@@ -11,3 +17,8 @@
 		</div>
 	</div>
 </div>
+<script>
+	<c:if test="${msg != null}">
+		alert('${msg}');
+	</c:if>
+</script>

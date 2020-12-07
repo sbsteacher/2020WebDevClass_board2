@@ -33,8 +33,24 @@ public class BoardDetailSer extends HttpServlet {
 		Utils.forward(data.getTitle(), "bDetail", request, response);
 	}
 
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//2개
+		int typ = Utils.getIntParam(request, "typ");
+		int i_board = Utils.getIntParam(request, "i_board");
 
+		BoardVO param = new BoardVO();
+		param.setTyp(typ);
+		param.setI_board(i_board);
+		
+		int result = BoardService.delBoard(param);
+		if(result == 0) {
+			request.setAttribute("msg", "삭제할 수 없습니다.");
+			doGet(request, response);
+			return;
+		}
+		//삭제후 list로 이동
+		response.sendRedirect("/bList?typ=" + typ);
 	}
 
 }
