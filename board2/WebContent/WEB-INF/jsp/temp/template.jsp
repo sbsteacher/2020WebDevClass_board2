@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
-<link rel="stylesheet" href="/res/css/common.css">
+<link rel="stylesheet" href="/res/css/common.css?ver=3">
 <script defer src="/res/js/common.js"></script>
 </head>
 <body>

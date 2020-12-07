@@ -10,6 +10,43 @@ import java.util.List;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardDAO {
+	public static BoardVO selBoard(final BoardVO param) {
+		BoardVO vo = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT i_board, title, ctnt, r_dt "
+				+ " FROM t_board_? "
+				+ " WHERE i_board = ? ";		
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getTyp());
+			ps.setInt(2, param.getI_board());
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				vo = new BoardVO();
+				vo.setI_board(param.getI_board());
+				vo.setTyp(param.getTyp());
+				vo.setTitle(rs.getNString("title"));
+				vo.setCtnt(rs.getNString("ctnt"));
+				vo.setR_dt(rs.getString("r_dt"));
+			}
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps, rs);
+		}
+		
+		
+		
+		return vo;
+	}
+	
+	
 	public static List<BoardVO> selBoardList(final BoardVO param) {
 		List<BoardVO> list = new ArrayList();
 		
@@ -17,8 +54,9 @@ public class BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT i_board, title, ctnt, r_dt "
-				+ " FROM t_board_? ";
+		String sql = " SELECT i_board, title, r_dt "
+				+ " FROM t_board_? "
+				+ " ORDER BY i_board DESC ";
 		
 		try {
 			con = DbUtils.getCon();
@@ -33,7 +71,7 @@ public class BoardDAO {
 				
 				vo.setI_board(rs.getInt("i_board"));
 				vo.setTitle(rs.getNString("title"));
-				vo.setCtnt(rs.getNString("ctnt"));
+				//vo.setCtnt(rs.getNString("ctnt"));
 				vo.setR_dt(rs.getString("r_dt"));
 			}			
 			
