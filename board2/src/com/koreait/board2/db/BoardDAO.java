@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,21 +87,30 @@ public class BoardDAO {
 	public static int insBoard(final BoardVO param) {
 		Connection con = null;
 		PreparedStatement ps = null;
+		ResultSet rs = null;
 		String sql = " INSERT INTO t_board_? "
 				+ " (title, ctnt) "
 				+ " VALUES "
 				+ " (?, ?) ";
 		try {
 			con = DbUtils.getCon();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, param.getTyp());
 			ps.setNString(2, param.getTitle());
 			ps.setNString(3, param.getCtnt());
-			return ps.executeUpdate();
+			int result = ps.executeUpdate();
+			
+			rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				int i_board = rs.getInt(1);
+				param.setI_board(i_board);
+			}
+			
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DbUtils.close(con, ps);
+			DbUtils.close(con, ps, rs);
 		}
 		return 0;
 	}
@@ -115,6 +125,29 @@ public class BoardDAO {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, param.getTyp());
 			ps.setInt(2, param.getI_board());			
+			return ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps);
+		}
+		return 0;
+	}
+	
+	public static int updBoard(final BoardVO param) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = " UPDATE t_board_? "
+				+ " SET title = ? "
+				+ " , ctnt = ? "
+				+ " WHERE i_board = ? ";
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getTyp());
+			ps.setNString(2, param.getTitle());
+			ps.setNString(3, param.getCtnt());
+			ps.setInt(4, param.getI_board());			
 			return ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

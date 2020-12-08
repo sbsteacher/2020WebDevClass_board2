@@ -15,9 +15,8 @@ public class BoardService {
 	}
 	
 	public static int regmod(BoardVO param) {
-		if(param.getI_board() > 0) { //수정
-			//TODO 수정 처리
-			return 0;
+		if(param.getI_board() > 0) { //수정			
+			return BoardDAO.updBoard(param);
 		} 
 		return BoardDAO.insBoard(param);		
 	}

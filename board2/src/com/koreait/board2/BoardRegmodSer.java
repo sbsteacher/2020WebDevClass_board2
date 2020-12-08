@@ -23,10 +23,14 @@ public class BoardRegmodSer extends HttpServlet {
 			return;
 		}
 		
+		System.out.println("i_board : " + i_board);
 		String title = "글등록";
 		if(i_board > 0) { //수정! request에다가 자료를 담을꺼에요.
 			title = "글수정";
-			//TODO 수정일때 처리
+			BoardVO param = new BoardVO();
+			param.setTyp(typ);
+			param.setI_board(i_board);
+			request.setAttribute("data", BoardService.selBoard(param));
 		}
 		request.setAttribute("typ", typ);
 		Utils.forward(title, "bRegmod", request, response);		
@@ -56,7 +60,8 @@ public class BoardRegmodSer extends HttpServlet {
 			doGet(request, response);
 			return;
 		}
-		response.sendRedirect("/bList?typ=" + typ);
+		response.sendRedirect("/bDetail?typ=" + typ 
+				+ "&i_board=" + param.getI_board());
 	}
 
 }
