@@ -17,7 +17,7 @@ public class BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT i_board, title, ctnt, r_dt "
+		String sql = " SELECT i_board, title, ctnt, hits, r_dt "
 				+ " FROM t_board_? "
 				+ " WHERE i_board = ? ";		
 		try {
@@ -33,6 +33,7 @@ public class BoardDAO {
 				vo.setTyp(param.getTyp());
 				vo.setTitle(rs.getNString("title"));
 				vo.setCtnt(rs.getNString("ctnt"));
+				vo.setHits(rs.getInt("hits"));
 				vo.setR_dt(rs.getString("r_dt"));
 			}
 			
@@ -41,8 +42,6 @@ public class BoardDAO {
 		} finally {
 			DbUtils.close(con, ps, rs);
 		}
-		
-		
 		
 		return vo;
 	}
@@ -55,7 +54,7 @@ public class BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT i_board, title, r_dt "
+		String sql = " SELECT i_board, title, hits, r_dt "
 				+ " FROM t_board_? "
 				+ " ORDER BY i_board DESC ";
 		
@@ -67,13 +66,13 @@ public class BoardDAO {
 			
 			BoardVO vo = null;
 			while(rs.next()) {
-				vo = new BoardVO();				
+				vo = new BoardVO();
 				list.add(vo);
 				
 				vo.setI_board(rs.getInt("i_board"));
 				vo.setTitle(rs.getNString("title"));
-				//vo.setCtnt(rs.getNString("ctnt"));
 				vo.setR_dt(rs.getString("r_dt"));
+				vo.setHits(rs.getInt("hits"));
 			}			
 			
 		} catch (Exception e) {		
@@ -157,4 +156,38 @@ public class BoardDAO {
 		return 0;
 	}
 	
+	public static void addHits(BoardVO param) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = " UPDATE t_board_? "
+				+ " SET hits = hits + 1 "
+				+ " WHERE i_board = ? ";
+				
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getTyp());			
+			ps.setInt(2, param.getI_board());			
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps);
+		}
+				
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

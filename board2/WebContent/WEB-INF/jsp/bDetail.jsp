@@ -13,6 +13,7 @@
 	</a>
 	<div>
 		<div>번호 : ${data.i_board}</div>
+		<div>조회수 : ${data.hits}</div>
 		<div>제목 : ${data.title}</div>
 		<div>작성일 : ${data.r_dt}</div>
 		<div>

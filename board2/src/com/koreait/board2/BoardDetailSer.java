@@ -28,7 +28,7 @@ public class BoardDetailSer extends HttpServlet {
 		param.setTyp(typ);
 		param.setI_board(i_board);
 		
-		BoardVO data = BoardService.selBoard(param);
+		BoardVO data = BoardService.detail(param, request);
 		request.setAttribute("data", data);
 		Utils.forward(data.getTitle(), "bDetail", request, response);
 	}
