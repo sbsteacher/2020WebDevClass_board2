@@ -11,6 +11,29 @@ import java.util.List;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardDAO {
+	public static int selPageCnt(final BoardVO param) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;		
+		String sql = " SELECT ceil(COUNT(i_board) / ?) "
+				+ " FROM t_board_? ";		
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getRowCntPerPage());
+			ps.setInt(2, param.getTyp());			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps, rs);
+		}		
+		return 0;
+	}
+	
 	public static BoardVO selBoard(final BoardVO param) {
 		BoardVO vo = null;
 		Connection con = null;

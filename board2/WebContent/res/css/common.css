@@ -50,6 +50,10 @@ header ul li a:hover:not(.active) {
     background-color: #111;
 }
 
+#container section {
+	padding: 20px;
+}
+
 .centerCont {
 	width: 100%;
 	height: 100%;
@@ -61,4 +65,16 @@ header ul li a:hover:not(.active) {
 #container section {
 	flex-grow: 1;
 }
+
+.pageContainer {
+	text-align: center;
+}
+
+
+
+
+
+
+
+
 

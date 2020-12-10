@@ -7,7 +7,14 @@ public class BoardVO {
 	private String r_dt;
 	private int typ;
 	private int hits;
-			
+	private int rowCntPerPage;
+	
+	public int getRowCntPerPage() {
+		return rowCntPerPage;
+	}
+	public void setRowCntPerPage(int rowCntPerPage) {
+		this.rowCntPerPage = rowCntPerPage;
+	}
 	public int getHits() {
 		return hits;
 	}

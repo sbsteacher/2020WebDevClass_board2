@@ -21,6 +21,9 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<div class="pageContainer">
+		${pageCnt}
+	</div>
 </div>
 <script>
 	function clkItem(typ, i_board) {

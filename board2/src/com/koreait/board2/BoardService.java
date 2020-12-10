@@ -11,8 +11,14 @@ import com.koreait.board2.db.BoardDAO;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardService {
+	
+	public static int selPageCnt(BoardVO param) {
+		return BoardDAO.selPageCnt(param);
+	}
+	
 	public static BoardVO detail(BoardVO param, HttpServletRequest request) {
 		
+		System.out.println(request.getClass().getName());
 		String ip = request.getRemoteAddr();
 		System.out.println("ip : " + ip);
 		
