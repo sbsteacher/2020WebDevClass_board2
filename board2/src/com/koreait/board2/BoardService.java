@@ -49,7 +49,9 @@ public class BoardService {
 		return BoardDAO.selBoard(param);
 	}
 	
-	public static List<BoardVO> selBoardList(BoardVO param) {		
+	public static List<BoardVO> selBoardList(BoardVO param, int page) {
+		int s_idx = (page - 1) * param.getRowCntPerPage();
+		param.setS_idx(s_idx);
 		return BoardDAO.selBoardList(param);
 	}
 	

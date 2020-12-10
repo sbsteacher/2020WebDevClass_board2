@@ -15,7 +15,7 @@ public class BoardDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;		
-		String sql = " SELECT ceil(COUNT(i_board) / ?) "
+		String sql = " SELECT ceil(COUNT(i_board) / ?) as cnt "
 				+ " FROM t_board_? ";		
 		try {
 			con = DbUtils.getCon();
@@ -24,7 +24,7 @@ public class BoardDAO {
 			ps.setInt(2, param.getTyp());			
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				return rs.getInt(1);
+				return rs.getInt("cnt");
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,12 +79,15 @@ public class BoardDAO {
 		
 		String sql = " SELECT i_board, title, hits, r_dt "
 				+ " FROM t_board_? "
-				+ " ORDER BY i_board DESC ";
+				+ " ORDER BY i_board DESC "
+				+ " LIMIT ?, ? ";
 		
 		try {
 			con = DbUtils.getCon();
 			ps = con.prepareStatement(sql);			
 			ps.setInt(1, param.getTyp());
+			ps.setInt(2, param.getS_idx());
+			ps.setInt(3, param.getRowCntPerPage());
 			rs = ps.executeQuery();
 			
 			BoardVO vo = null;

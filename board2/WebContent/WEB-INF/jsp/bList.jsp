@@ -22,7 +22,11 @@
 		</c:forEach>
 	</table>
 	<div class="pageContainer">
-		${pageCnt}
+		<c:forEach begin="1" end="${pageCnt}" var="i">
+			<span class="page">
+				<a href="/bList?typ=${typ}&page=${i}">${i}</a>
+			</span>
+		</c:forEach>
 	</div>
 </div>
 <script>

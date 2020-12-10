@@ -10,6 +10,10 @@ html, body {
 	height: 100%;
 }
 
+a {
+	text-decoration: none;
+}
+
 .pointer {
 	cursor: pointer;
 }
@@ -43,15 +47,11 @@ header ul li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-header ul li a:hover:not(.active) {
-    background-color: #111;
+    padding: 14px 16px;    
 }
 
-#container section {
-	padding: 20px;
+header ul li a:hover:not(.active) {
+    background-color: #111;
 }
 
 .centerCont {
@@ -64,6 +64,7 @@ header ul li a:hover:not(.active) {
 
 #container section {
 	flex-grow: 1;
+	padding: 20px;
 }
 
 .pageContainer {
