@@ -4,13 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Vector;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.koreait.board2.db.BoardDAO;
 import com.koreait.board2.db.SQLInterUpdate;
+import com.koreait.board2.model.BoardCmtVO;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardService {
@@ -97,6 +97,25 @@ public class BoardService {
 			public void proc(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, param.getTyp());
 				ps.setInt(2, param.getI_board());
+			}
+		});
+	}
+	
+	public static List<BoardCmtVO> selBoardCmtList(BoardVO param) {
+		return BoardDAO.selBoardCmtList(param);
+	}
+	
+	public static int cmtIns(BoardCmtVO param) {
+		String sql = " INSERT INTO t_board_cmt_? "
+				+ " (i_board, ctnt) "
+				+ " VALUES "
+				+ " (?, ?) ";
+		return BoardDAO.myExecuteUpdate(sql, new SQLInterUpdate() {
+			@Override
+			public void proc(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getTyp());
+				ps.setInt(2, param.getI_board());
+				ps.setNString(3, param.getCtnt());
 			}
 		});
 	}

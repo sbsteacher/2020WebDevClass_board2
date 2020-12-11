@@ -18,6 +18,14 @@ public class BoardDetailSer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int typ = Utils.getIntParam(request, "typ");
 		int i_board = Utils.getIntParam(request, "i_board");
+		int err = Utils.getIntParam(request, "err");
+		if(err > 0) {
+			switch(err) {
+			case 1:
+				request.setAttribute("msg", "댓글 쓰기 실패");
+				break;
+			}
+		}
 		
 		if(typ == 0 || i_board == 0) {
 			Utils.forwardErr(request, response);
@@ -30,6 +38,7 @@ public class BoardDetailSer extends HttpServlet {
 		
 		BoardVO data = BoardService.detail(param, request);
 		request.setAttribute("data", data);
+		request.setAttribute("cmtList", BoardService.selBoardCmtList(param));
 		Utils.forward(data.getTitle(), "bDetail", request, response);
 	}
 

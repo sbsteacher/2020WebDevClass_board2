@@ -3,11 +3,11 @@ package com.koreait.board2.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.koreait.board2.model.BoardCmtVO;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardDAO {
@@ -106,6 +106,39 @@ public class BoardDAO {
 		} finally {
 			DbUtils.close(con, ps, rs);
 		}		
+		return list;
+	}
+	
+	public static List<BoardCmtVO> selBoardCmtList(final BoardVO param) {
+		List<BoardCmtVO> list = new ArrayList();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT i_cmt, ctnt FROM t_board_cmt_?"
+				+ " WHERE i_board = ? "
+				+ " ORDER BY i_cmt DESC ";		
+		try {
+			con = DbUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getTyp());
+			ps.setInt(2, param.getI_board());
+			rs = ps.executeQuery();
+			
+			BoardCmtVO vo;
+			while(rs.next()) {
+				vo = new BoardCmtVO();
+				list.add(vo);
+				
+				vo.setI_cmt(rs.getInt("i_cmt"));
+				vo.setCtnt(rs.getNString("ctnt"));
+			}			
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(con, ps, rs);
+		}
+		
 		return list;
 	}
 	

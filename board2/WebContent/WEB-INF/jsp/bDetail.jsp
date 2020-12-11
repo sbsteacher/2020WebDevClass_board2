@@ -20,6 +20,29 @@
 			${data.ctnt}
 		</div>
 	</div>
+	<div style="margin-top: 20px;">
+		<div>
+			<form action="/cmt" method="post">
+				<input type="hidden" name="typ" value="${data.typ}">
+				<input type="hidden" name="i_board" value="${data.i_board}">
+				댓글: <input type="text" name="cmt_ctnt">
+				<input type="submit" value="댓글쓰기">
+			</form>
+		</div>
+		<div>
+			<table>
+				<tr>					
+					<th>댓글</th>					
+				</tr>
+				<c:forEach items="${cmtList}" var="item">
+					<tr>
+						<td>${item.ctnt}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		
+		</div>
+	</div>
 </div>
 <script>
 	function isDel(e) {
