@@ -140,16 +140,13 @@ public class BoardDAO {
 		return 0;
 	}
 	
-	public static int delBoard(final BoardVO param) {
+	public static int myExecuteUpdate(String sql, SQLInterUpdate sqlInter) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = " DELETE FROM t_board_? "
-				+ " WHERE i_board = ? ";
 		try {
 			con = DbUtils.getCon();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, param.getTyp());
-			ps.setInt(2, param.getI_board());			
+			sqlInter.proc(ps);			
 			return ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,50 +154,6 @@ public class BoardDAO {
 			DbUtils.close(con, ps);
 		}
 		return 0;
-	}
-	
-	public static int updBoard(final BoardVO param) {
-		Connection con = null;
-		PreparedStatement ps = null;
-		String sql = " UPDATE t_board_? "
-				+ " SET title = ? "
-				+ " , ctnt = ? "
-				+ " WHERE i_board = ? ";
-		try {
-			con = DbUtils.getCon();
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, param.getTyp());
-			ps.setNString(2, param.getTitle());
-			ps.setNString(3, param.getCtnt());
-			ps.setInt(4, param.getI_board());			
-			return ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DbUtils.close(con, ps);
-		}
-		return 0;
-	}
-	
-	public static void addHits(BoardVO param) {
-		Connection con = null;
-		PreparedStatement ps = null;
-		String sql = " UPDATE t_board_? "
-				+ " SET hits = hits + 1 "
-				+ " WHERE i_board = ? ";
-				
-		try {
-			con = DbUtils.getCon();
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, param.getTyp());			
-			ps.setInt(2, param.getI_board());			
-			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DbUtils.close(con, ps);
-		}
-				
 	}
 	
 }

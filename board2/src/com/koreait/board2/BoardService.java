@@ -1,5 +1,7 @@
 package com.koreait.board2;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
@@ -8,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.koreait.board2.db.BoardDAO;
+import com.koreait.board2.db.SQLInterUpdate;
 import com.koreait.board2.model.BoardVO;
 
 public class BoardService {
@@ -29,7 +32,18 @@ public class BoardService {
 		
 		if(!ip.equals(savedIp)) {
 			application.setAttribute(key, ip);
-			BoardDAO.addHits(param);
+			
+			String sql = " UPDATE t_board_? "
+					+ " SET hits = hits + 1 "
+					+ " WHERE i_board = ? ";
+			
+			BoardDAO.myExecuteUpdate(sql, new SQLInterUpdate() {
+				@Override
+				public void proc(PreparedStatement ps) throws SQLException {
+					ps.setInt(1, param.getTyp());			
+					ps.setInt(2, param.getI_board());
+				}
+			});
 		}
 		
 		Enumeration<String> strArr = application.getAttributeNames();
@@ -56,13 +70,40 @@ public class BoardService {
 	}
 	
 	public static int regmod(BoardVO param) {
-		if(param.getI_board() > 0) { //수정			
-			return BoardDAO.updBoard(param);
+		if(param.getI_board() > 0) { //수정	
+			String sql = " UPDATE t_board_? "
+					+ " SET title = ? "
+					+ " , ctnt = ? "
+					+ " WHERE i_board = ? ";
+			return BoardDAO.myExecuteUpdate(sql, new SQLInterUpdate() {
+				@Override
+				public void proc(PreparedStatement ps) throws SQLException {
+					ps.setInt(1, param.getTyp());
+					ps.setNString(2, param.getTitle());
+					ps.setNString(3, param.getCtnt());
+					ps.setInt(4, param.getI_board());
+				}
+			});
 		} 
 		return BoardDAO.insBoard(param);		
 	}
 	
-	public static int delBoard(BoardVO param) {
-		return BoardDAO.delBoard(param);
+	public static int delBoard(BoardVO param) {		
+		String sql = " DELETE FROM t_board_? "
+				+ " WHERE i_board = ? ";
+		
+		return BoardDAO.myExecuteUpdate(sql, new SQLInterUpdate() {
+			@Override
+			public void proc(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getTyp());
+				ps.setInt(2, param.getI_board());
+			}
+		});
 	}
 }
+
+
+
+
+
+
